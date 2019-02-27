@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MaterialIcon, {colorPalette} from 'material-icons-react';
 
 class MovieList extends Component {
     render() {
@@ -7,7 +8,7 @@ class MovieList extends Component {
             { this.props.movies.map((character, index) =>
                 <div className="card" key={index} >
                   <img className="profile-image" src={character.image} alt={character.name} />
-                  <button onClick={ this.props.triggerParentUpdate} className="front-element" value={character.name}>Delete</button>
+                  <button onClick={ this.props.triggerParentUpdate} className="front-element" value={character.name}><MaterialIcon icon="delete" /></button>
                   <div className="card-container">
                     <div className="wrapper">
                         <span className="heading">{ character.name}</span>

@@ -52,7 +52,9 @@ class App extends Component {
       }
     ); 
     return (
-
+      <div>
+        <div className="topnav" >
+        </div>        
         <div className="container">
             <SearchBox searchandle={this.searchHandler} searchterm={this.state.term}  />
             
@@ -67,6 +69,7 @@ class App extends Component {
             <MovieList movies= {filteredData } triggerParentUpdate={this.deleteMovie} />
 
         </div>
+       </div> 
     );
   }
 }
