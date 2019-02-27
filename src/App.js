@@ -1,26 +1,62 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import SearchBox from './views/SearchBox';
+import MovieList from './views/MovieList';
+import Particles from 'react-particles-js';
 import './App.css';
 
+
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      characters : [],
+      term: ''
+    }
+    this.searchHandler = this.searchHandler.bind(this);
+    this.deleteMovie = this.deleteMovie.bind(this);
+  }
+
+  async componentDidMount(){
+    try {
+     await fetch(`http://hp-api.herokuapp.com/api/characters`)
+      .then(res => res.json())
+      .then(json => this.setState({ characters: json.slice(0,10)}));      
+    } catch(e) {
+        console.error(e);
+    }
+
+  }
+      
+  searchHandler(event){
+    this.setState({ term: event.target.value })
+  }
+
+  deleteMovie(e){
+    console.log(e.target.value);
+    var array = [...this.state.characters]; 
+    var index =  array.findIndex(x => x.name== e.target.value);
+    if (index !== -1) {
+      array.splice(index, 1);
+      this.setState({ characters: array})
+    }
+
+    console.log(this.state.characters);
+  }
   render() {
+    const {term,characters} =this.state;
+    let filteredData = characters.filter(
+      (character) => {
+        return character.name.toLowerCase().includes(term.toLowerCase()) 
+      }
+    ); 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+
+        <div className="container">
+            <SearchBox searchandle={this.searchHandler} searchterm={this.state.term}  />
+            <MovieList movies= {filteredData } triggerParentUpdate={this.deleteMovie} />
+
+        </div>
     );
   }
 }
