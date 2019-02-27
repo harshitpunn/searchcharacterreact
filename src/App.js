@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import SearchBox from './views/SearchBox';
 import MovieList from './views/MovieList';
-import Particles from 'react-particles-js';
 import './App.css';
 
 
@@ -11,7 +10,8 @@ class App extends Component {
     super(props);
     this.state = {
       characters : [],
-      term: ''
+      term: '',
+      isLoaded: false
     }
     this.searchHandler = this.searchHandler.bind(this);
     this.deleteMovie = this.deleteMovie.bind(this);
@@ -21,7 +21,7 @@ class App extends Component {
     try {
      await fetch(`http://hp-api.herokuapp.com/api/characters`)
       .then(res => res.json())
-      .then(json => this.setState({ characters: json.slice(0,10)}));      
+      .then(json => this.setState({ characters: json.slice(0,10), isLoaded: true}));      
     } catch(e) {
         console.error(e);
     }
@@ -45,6 +45,7 @@ class App extends Component {
   }
   render() {
     const {term,characters} =this.state;
+    var loading = this.state.isLoaded ;
     let filteredData = characters.filter(
       (character) => {
         return character.name.toLowerCase().includes(term.toLowerCase()) 
@@ -54,6 +55,15 @@ class App extends Component {
 
         <div className="container">
             <SearchBox searchandle={this.searchHandler} searchterm={this.state.term}  />
+            
+                    { loading ? 
+                      (<p></p>)
+                     : 
+                      (<h4>Loading...</h4>)
+                    }
+
+            
+            
             <MovieList movies= {filteredData } triggerParentUpdate={this.deleteMovie} />
 
         </div>
