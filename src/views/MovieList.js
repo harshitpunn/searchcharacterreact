@@ -9,8 +9,11 @@ class MovieList extends Component {
                   <img className="profile-image" src={character.image} alt={character.name} />
                   <button onClick={ this.props.triggerParentUpdate} className="front-element" value={character.name}>Delete</button>
                   <div className="card-container">
-                    <h4>{ character.name}</h4>
-                    <h4>{ character.yearOfBirth}</h4>
+                    <div className="wrapper">
+                        <span className="heading">{ character.name}</span>
+                        <span className="heading dob">{ character.yearOfBirth}</span>
+                    </div>
+
                   </div>
                 </div>
             )}

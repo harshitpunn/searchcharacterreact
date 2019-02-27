@@ -35,7 +35,7 @@ class App extends Component {
   deleteMovie(e){
     console.log(e.target.value);
     var array = [...this.state.characters]; 
-    var index =  array.findIndex(x => x.name== e.target.value);
+    var index =  array.findIndex(x => x.name === e.target.value);
     if (index !== -1) {
       array.splice(index, 1);
       this.setState({ characters: array})
